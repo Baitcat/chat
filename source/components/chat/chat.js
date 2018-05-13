@@ -13,9 +13,12 @@ export default class Chat {
 
     addMessage(message) {
         this.data.messages.push(message);
-        this.render();
+        
+        const messageHTML = this.messageTemplate(message);
+        const chatBox = this.el.querySelector('.chat__box');
+        chatBox.innerHTML += messageHTML;
     }
-    
+
 	template(data) {
 		return `
         <div class="chat">
@@ -24,15 +27,21 @@ export default class Chat {
                     <h2>You are logged in as ${data.user.name}</h2>
                 </div>
                 <div class="chat__box">
-                    ${this.messageTemplate(data)}
+                    ${this.messagesTemplate(data)}
                 </div>
             </div>
         </div>
         `;
 	}
 
-	messageTemplate(data) {
-		return data.messages.map((message) => `
+	messagesTemplate(data) {
+		return data.messages.map((message) => {
+            return this.messageTemplate(message);
+        }).join('');
+    }
+    
+    messageTemplate(message) {
+		return `
             <div class="message-box left-img">
                 <div class="picture">
                     <img src="https://unsplash.it/200/200/?random=">
@@ -43,6 +52,6 @@ export default class Chat {
                     <p>${message.text}</p>
                 </div>
             </div>
-        `).join('');
+        `;
 	}
 }

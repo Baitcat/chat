@@ -24,12 +24,16 @@ export default class Field {
         this.props.onSubmit(message);
     }
 
+    template(data) {
+        return `
+            <form>
+                <textarea name="message" placeholder="Введите текст"></textarea>
+                <input type="submit" value="Отправить">
+            </form>
+        `
+    }
+
 	render() {
-		this.el.innerHTML = `
-		   <form>
-			   <textarea name="message" placeholder="Введите сообщение..."></textarea>
-			   <input type="submit" value="Отправить">
-			</form>
-        `;
+		this.el.innerHTML = this.template(this.data);
 	}
 }

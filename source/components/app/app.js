@@ -34,10 +34,21 @@ export default class App {
 	}
 
     onSubmit(message) {
-        this.chat.addMessage({
+        
+        const messageObjecct = {
             name: this.data.user.name,
-            text: message
-        });
+            text: message 
+        }
+        fetch('https://js-code-chat.firebaseio.com/messages.json', {
+            method: 'POST',
+            body: JSON.stringify(messageObjecct),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(() => {
+            this.chat.addMessage(messageObjecct);
+        })
     }
 
 	render() {

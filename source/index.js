@@ -2,7 +2,7 @@ import App from './components/app/app.js'
 
 const element = document.getElementsByClassName('app')[0];
 
-const application = new App({
+const store = {
     el: element,
 	data: {
 		user: {
@@ -23,6 +23,18 @@ const application = new App({
 			}
 		]
 	}
-});
+}
 
-application.render();
+fetch('https://js-code-chat.firebaseio.com/messages.json')
+.then((response) => {
+	return response.json(); 
+})
+.then((body) => {
+	body = body || {};
+	store.data.messages = Object.values(body);
+	return store;
+})
+.then((data) => {
+	const application = new App(data);
+	application.render();
+})
